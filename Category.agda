@@ -50,6 +50,25 @@ record Category a b ℓ : Set (lsuc (a ⊔ b ⊔ ℓ)) where
         { Carrier = A ⇨ B;
           isEquivalence = isEquivalence }
 
+    module Property where
+        IsTerminal IsCoterminal : Dot → Set _
+        IsTerminal   ⊤ = {A : Dot} → ∃ λ (f : A ⇨ ⊤) → {g : A ⇨ ⊤} → f ≈ g
+        IsCoterminal ⊥ = {A : Dot} → ∃ λ (f : ⊥ ⇨ A) → {g : ⊥ ⇨ A} → f ≈ g
+
+        IsProduct : {c : _} {I : Set c} {A : I → Dot} {P : Dot} → ((i : I) → P ⇨ A i) → Set _
+        IsProduct {_} {I} {A} {P} p = {X : Dot} → (x : (i : I) → X ⇨ A i) → ∃ λ (u : X ⇨ P) → (i : I) → x i ≈ p i ∘ u
+
+        IsCoproduct : {c : _} {I : Set c} {A : I → Dot} {Q : Dot} → ((i : I) → A i ⇨ Q) → Set _
+        IsCoproduct {_} {I} {A} {Q} q = {X : Dot} → (x : (i : I) → A i ⇨ X) → ∃ λ (v : Q ⇨ X) → (i : I) → v ∘ q i ≈ x i
+
+        IsMonic IsEpic : {B C : Dot} → (B ⇨ C) → Set (a ⊔ b ⊔ ℓ)
+        IsMonic {B} {_} f = {A : Dot} {g h : A ⇨ B} → f ∘ g ≈ f ∘ h → g ≈ h
+        IsEpic  {_} {C} h = {D : Dot} {f g : C ⇨ D} → g ∘ h ≈ f ∘ h → f ≈ g
+
+        IsIsic : {A B : Dot} → (A ⇨ B) → Set (b ⊔ ℓ)
+        IsIsic f = ∃ λ f⁻¹ → f⁻¹ ∘ f ≈ id × f ∘ f⁻¹ ≈ id
+    open Property
+
 record IsFunctor {a b ℓ a' b' ℓ'}
        (K : Category a b ℓ) (K' : Category a' b' ℓ')
        (F : Category.Dot K → Category.Dot K') (f : {A B : Category.Dot K} → Category._⇨_ K A B → Category._⇨_ K' (F A) (F B)) : Set (lsuc (lsuc (a ⊔ b ⊔ ℓ ⊔ a' ⊔ b' ⊔ ℓ'))) where
