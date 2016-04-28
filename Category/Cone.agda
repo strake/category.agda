@@ -24,3 +24,6 @@ cone {_} {_} {_} {_} {_} {_} {J} {C} d = record
             ident = ident;
             assoc = assoc } }
   where open Category.Category C
+
+IsLimit : {a b ℓ a' b' ℓ' : _} → {J : Category a' b' ℓ'} → {C : Category a b ℓ} → {d : Functor J C} → Cone d → Set _
+IsLimit {_} {_} {_} {_} {_} {_} {_} {_} {d} = Category.Property.IsTerminal (cone d)
