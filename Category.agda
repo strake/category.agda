@@ -89,6 +89,32 @@ record Functor {a b ℓ a' b' ℓ'} (K : Category a b ℓ) (K' : Category a' b' 
 
     open IsFunctor isFunctor public
 
+record IsMonad {a b ℓ}
+       (K : Category a b ℓ)
+       (Φ : Functor K K)
+       (unit : ∀ {A} → Category._⇨_ K A (Functor.F Φ A))
+       (join : ∀ {A} → Category._⇨_ K (Functor.F Φ (Functor.F Φ A)) (Functor.F Φ A)) : Set (lsuc (lsuc (a ⊔ b ⊔ ℓ))) where
+    open Category K
+    open Functor Φ
+
+    field nat : ∀ {A B} {φ : A ⇨ B} → join ∘ f (f φ) ≈ f φ ∘ join
+          id-l : ∀ {A} → join ∘ f unit ≈ id {F A}
+          id-r : ∀ {A} → join ∘ unit   ≈ id {F A}
+          assoc : ∀ {A} → join {A} ∘ join ≈ join {A} ∘ f join
+
+record Monad {a b ℓ} (K : Category a b ℓ) : Set (lsuc (lsuc (a ⊔ b ⊔ ℓ))) where
+    open Category K
+
+    field functor : Functor K K
+
+    open Functor functor public
+
+    field unit : ∀ {A} → A ⇨ F A
+          join : ∀ {A} → F (F A) ⇨ F A
+          isMonad : IsMonad K functor unit join
+
+    open IsMonad isMonad public
+
 record Cone {a b ℓ a' b' ℓ'} {J : Category a' b' ℓ'} {C : Category a b ℓ} (d : Functor J C) : Set (a ⊔ b ⊔ a' ⊔ b' ⊔ ℓ) where
     open Category C
     open Functor d
