@@ -10,8 +10,6 @@ _×c_ : {aa ba ab bb ℓa ℓb : _} → Category aa ba ℓa → Category ab bb �
 A ×c B = record
     { Dot = Dot A × Dot B;
       _⇨_ = λ { (a , b) (a' , b') → a ⇨a a' × b ⇨b b' };
-      id  = id A , id B;
-      _∘_ = λ { (f , u) (g , v) → (f ∘a g , u ∘b v) };
       _≈_ = λ { (f , u) (g , v) → (f ≈a g × u ≈b v) };
       isCategory = record
           { isEquivalence = record { refl  = (refl' isEqvA , refl' isEqvB);

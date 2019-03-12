@@ -13,7 +13,7 @@ _/_ : {a b ℓ : _} → (K : Category a b ℓ) → Category.Dot K → Category _
 K / C = record
     { Dot = SliceDot;
       _⇨_ = _/⇨/_;
-      id  = λ {f} → id {proj₁ (doms (proj₂ f))} , IsEquivalence.sym isEquivalence (proj₂ ident);
+      id  = λ {f} → id {domain (proj₂ f)} , IsEquivalence.sym isEquivalence (proj₂ ident);
       _∘_ = _/∘/_;
       _≈_ = _≈_ on proj₁;
       isCategory = record { isEquivalence = isSliceEquivalence; ∘-cong = ∘-cong; ident = ident; assoc = assoc } }

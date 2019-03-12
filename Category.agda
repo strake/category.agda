@@ -7,7 +7,6 @@ open import Data.Unit
 open import Function using (flip)
 open import Relation.Binary
 open import Relation.Binary.Core
-import Relation.Binary.PropositionalEquality.Core as ≡
 
 record IsCategory {a b ℓ}
     (Dot : Set a)
@@ -33,17 +32,15 @@ record Category a b ℓ : Set (lsuc (a ⊔ b ⊔ ℓ)) where
     open IsCategory isCategory public
 
     dual : Category a b ℓ
-    dual = record { Dot = Dot;
-                    _⇨_ = flip _⇨_;
-                    id  = id;
-                    _≈_ = _≈_;
+    dual = record { _⇨_ = flip _⇨_;
                     isCategory = record { isEquivalence = isEquivalence;
                                           ∘-cong = flip ∘-cong;
                                           ident  = swap ident;
                                           assoc  = IsEquivalence.sym isEquivalence assoc } }
 
-    doms : {A B : Dot} → A ⇨ B → Dot × Dot
-    doms {A} {B} _ = A , B
+    domain codomain : {A B : Dot} → A ⇨ B → Dot
+    domain   {A} {_} _ = A
+    codomain {_} {B} _ = B
 
     homSetoid : {A B : Dot} → Setoid b ℓ
     homSetoid {A} {B} = record
