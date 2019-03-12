@@ -4,6 +4,7 @@ open import Agda.Primitive
 open import Data.Product
 open import Relation.Binary.Core
 import Relation.Binary.PropositionalEquality.Core as ≡
+open import Relation.Binary.PropositionalEquality.Core using (_≡_; refl)
 
 open import Category
 
