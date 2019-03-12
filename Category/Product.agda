@@ -6,11 +6,6 @@ open import Relation.Binary.Core
 
 open import Category
 
-map₂ : {ℓa ℓb ℓc ℓp ℓq ℓr : _} {A : Set ℓa} {B : Set ℓb} {C : Set ℓc} {P : A → Set ℓp} {Q : B → Set ℓq} {R : C → Set ℓr} →
-       (f : A → B → C) → ({x : _} {y : _} → P x → Q y → R (f x y)) →
-       Σ A P → Σ B Q → Σ C R
-map₂ f g (u , v) (x , y) = (f u x , g v y)
-
 _×c_ : {aa ba ab bb ℓa ℓb : _} → Category aa ba ℓa → Category ab bb ℓb → Category (aa ⊔ ab) (ba ⊔ bb) (ℓa ⊔ ℓb)
 A ×c B = record
     { Dot = Dot A × Dot B;
@@ -21,7 +16,7 @@ A ×c B = record
       isCategory = record
           { isEquivalence = record { refl  = (refl' isEqvA , refl' isEqvB);
                                      sym   = map (sym isEqvA) (sym isEqvB);
-                                     trans = map₂ (trans isEqvA) (trans isEqvB) };
+                                     trans = zip (trans isEqvA) (trans isEqvB) };
             ∘-cong = λ { (pa , pb) (qa , qb) → (∘-cong A pa qa , ∘-cong B pb qb) };
             ident = (proj₁ (ident A) , proj₁ (ident B)) , (proj₂ (ident A) , proj₂ (ident B));
             assoc = assoc A , assoc B } }
