@@ -86,6 +86,9 @@ record Functor {a b ℓ a' b' ℓ'} (K : Category a b ℓ) (K' : Category a' b' 
 
     open IsFunctor isFunctor public
 
+Endofunctor : ∀ {a b ℓ} (K : Category a b ℓ) → Set (lsuc (a ⊔ b ⊔ ℓ))
+Endofunctor K = Functor K K
+
 record IsMonad {a b ℓ}
        (K : Category a b ℓ)
        (Φ : Functor K K)
