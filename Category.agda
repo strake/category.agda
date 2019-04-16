@@ -13,7 +13,7 @@ record IsCategory {a b ℓ}
     (_⇨_ : Dot → Dot → Set b)
     (id : {A : Dot} → A ⇨ A)
     (_∘_ : {A B C : Dot} → B ⇨ C → A ⇨ B → A ⇨ C)
-    (_≈_ : {A B : Dot} → Rel (A ⇨ B) ℓ) : Set (lsuc (a ⊔ b ⊔ ℓ)) where
+    (_≈_ : {A B : Dot} → Rel (A ⇨ B) ℓ) : Set (a ⊔ b ⊔ ℓ) where
     field isEquivalence : {A B : Dot} → IsEquivalence {_} {_} {A ⇨ B} _≈_
           ∘-cong : {A B C : Dot} {f u : B ⇨ C} {g v : A ⇨ B} → f ≈ u → g ≈ v → (f ∘ g) ≈ (u ∘ v)
           ident : {A B : Dot} → {u : A ⇨ B} → (id ∘ u) ≈ u × (u ∘ id) ≈ u
@@ -68,7 +68,7 @@ record Category a b ℓ : Set (lsuc (a ⊔ b ⊔ ℓ)) where
 
 record IsFunctor {a b ℓ a' b' ℓ'}
        (K : Category a b ℓ) (K' : Category a' b' ℓ')
-       (F : Category.Dot K → Category.Dot K') (f : {A B : Category.Dot K} → Category._⇨_ K A B → Category._⇨_ K' (F A) (F B)) : Set (lsuc (lsuc (a ⊔ b ⊔ ℓ ⊔ a' ⊔ b' ⊔ ℓ'))) where
+       (F : Category.Dot K → Category.Dot K') (f : {A B : Category.Dot K} → Category._⇨_ K A B → Category._⇨_ K' (F A) (F B)) : Set (lsuc (a ⊔ b ⊔ ℓ ⊔ a' ⊔ b' ⊔ ℓ')) where
     open Category K using (Dot; _⇨_; id; _∘_; _≈_)
     open Category K' using () renaming (Dot to Dot'; _⇨_ to _⇨'_; id to id'; _∘_ to _∘'_; _≈_ to _≈'_)
 
@@ -76,7 +76,7 @@ record IsFunctor {a b ℓ a' b' ℓ'}
           ident : {A : Dot} → f (id {A}) ≈' id' {F A}
           distrib : {A B C : Dot} → {u : B ⇨ C} → {v : A ⇨ B} → f (u ∘ v) ≈' f u ∘' f v
 
-record Functor {a b ℓ a' b' ℓ'} (K : Category a b ℓ) (K' : Category a' b' ℓ') : Set (lsuc (lsuc (a ⊔ b ⊔ ℓ ⊔ a' ⊔ b' ⊔ ℓ'))) where
+record Functor {a b ℓ a' b' ℓ'} (K : Category a b ℓ) (K' : Category a' b' ℓ') : Set (lsuc (a ⊔ b ⊔ ℓ ⊔ a' ⊔ b' ⊔ ℓ')) where
     open Category K using (Dot; _⇨_; id; _∘_)
     open Category K' using () renaming (Dot to Dot'; _⇨_ to _⇨'_; id to id'; _∘_ to _∘'_)
 
@@ -90,7 +90,7 @@ record IsMonad {a b ℓ}
        (K : Category a b ℓ)
        (Φ : Functor K K)
        (unit : ∀ {A} → Category._⇨_ K A (Functor.F Φ A))
-       (join : ∀ {A} → Category._⇨_ K (Functor.F Φ (Functor.F Φ A)) (Functor.F Φ A)) : Set (lsuc (lsuc (a ⊔ b ⊔ ℓ))) where
+       (join : ∀ {A} → Category._⇨_ K (Functor.F Φ (Functor.F Φ A)) (Functor.F Φ A)) : Set (lsuc (a ⊔ b ⊔ ℓ)) where
     open Category K
     open Functor Φ
 
@@ -99,7 +99,7 @@ record IsMonad {a b ℓ}
           id-r : ∀ {A} → join ∘ unit   ≈ id {F A}
           assoc : ∀ {A} → join {A} ∘ join ≈ join {A} ∘ f join
 
-record Monad {a b ℓ} (K : Category a b ℓ) : Set (lsuc (lsuc (a ⊔ b ⊔ ℓ))) where
+record Monad {a b ℓ} (K : Category a b ℓ) : Set (lsuc (a ⊔ b ⊔ ℓ)) where
     open Category K
 
     field functor : Functor K K
