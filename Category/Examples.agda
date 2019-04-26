@@ -9,8 +9,8 @@ open import Relation.Binary.PropositionalEquality.Core using (_≡_; refl)
 
 open import Category
 
-set : {ℓ : _} → Category (lsuc ℓ) ℓ ℓ
-set {ℓ} = record
+set : (ℓ : _) → Category (lsuc ℓ) ℓ ℓ
+set ℓ = record
     { _⇨_ = λ A B → A → B;
       isCategory = record
           { isEquivalence = ≡.isEquivalence;
