@@ -111,11 +111,3 @@ record Monad {a b ℓ} (K : Category a b ℓ) : Set (lsuc (a ⊔ b ⊔ ℓ)) whe
           isMonad : IsMonad K functor unit join
 
     open IsMonad isMonad public
-
-record Cone {a b ℓ a' b' ℓ'} {J : Category a' b' ℓ'} {C : Category a b ℓ} (d : Functor J C) : Set (a ⊔ b ⊔ a' ⊔ b' ⊔ ℓ) where
-    open Category C
-    open Functor d
-
-    field apex : Dot
-          apicalEdge : (j : Category.Dot J) → apex ⇨ F j
-          isCone : (i j : Category.Dot J) → (α : Category._⇨_ J i j) → f α ∘ apicalEdge i ≈ apicalEdge j

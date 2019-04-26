@@ -5,7 +5,15 @@ open import Data.Product
 open import Function using (_on_)
 open import Relation.Binary.Core
 
-open import Category
+open import Category as Category_
+
+record Cone {a b ℓ a' b' ℓ'} {J : Category a' b' ℓ'} {C : Category a b ℓ} (d : Functor J C) : Set (a ⊔ b ⊔ a' ⊔ b' ⊔ ℓ) where
+    open Category C
+    open Functor d
+
+    field apex : Dot
+          apicalEdge : (j : Category.Dot J) → apex ⇨ F j
+          isCone : (i j : Category.Dot J) → (α : Category._⇨_ J i j) → f α ∘ apicalEdge i ≈ apicalEdge j
 
 cone : {a b ℓ a' b' ℓ' : _} → {J : Category a' b' ℓ'} → {C : Category a b ℓ} → Functor J C → Category _ _ _
 cone {_} {_} {_} {_} {_} {_} {J} {C} d = record
@@ -23,7 +31,7 @@ cone {_} {_} {_} {_} {_} {_} {J} {C} d = record
             ∘-cong = ∘-cong;
             ident = ident;
             assoc = assoc } }
-  where open Category.Category C
+  where open Category C
 
 IsLimit : {a b ℓ a' b' ℓ' : _} → {J : Category a' b' ℓ'} → {C : Category a b ℓ} → {d : Functor J C} → Cone d → Set _
 IsLimit {_} {_} {_} {_} {_} {_} {_} {_} {d} = Category.Property.IsTerminal (cone d)
