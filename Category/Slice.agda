@@ -7,7 +7,7 @@ open import Relation.Binary
 open import Relation.Binary.Core
 import Relation.Binary.EqReasoning as EqR
 
-open import Category
+open import Category as Category_
 
 _/_ : {a b ℓ : _} → (K : Category a b ℓ) → Category.Dot K → Category _ _ _
 K / C = record
@@ -17,7 +17,7 @@ K / C = record
       _∘_ = _/∘/_;
       _≈_ = _≈_ on proj₁;
       isCategory = record { isEquivalence = isSliceEquivalence; ∘-cong = ∘-cong; ident = ident; assoc = assoc } }
-  where open Category.Category K
+  where open Category K
 
         SliceDot : Set _
         SliceDot = ∃ λ (A : Dot) → A ⇨ C

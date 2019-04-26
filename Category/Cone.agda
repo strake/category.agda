@@ -3,7 +3,7 @@ module Category.Cone where
 open import Agda.Primitive
 open import Data.Product
 open import Function using (_on_)
-open import Relation.Binary.Core
+open import Relation.Binary.Core using (IsEquivalence)
 
 open import Category as Category_
 
